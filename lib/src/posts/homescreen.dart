@@ -36,7 +36,7 @@ class CommentData {
 class TextFormFieldDemoState extends State<TextFormFieldDemo>
     with RestorationMixin {
   CommentData comment = CommentData();
-  var url = Uri.http('0.0.0.0:3000', '/posts');
+  var url = Uri.http('localhost:3000', '/posts');
   var urlTest = Uri.https('gorest.co.in', '/public/v2/users');
 
   late FocusNode _title;
@@ -93,9 +93,11 @@ class TextFormFieldDemoState extends State<TextFormFieldDemo>
         currentUrl = url;
       }
       try {
-        // var response = await http.post(url, body: {'title': comment.title});
-
-        response = await http.get(currentUrl);
+        Map<String, String> headers = {
+          "Content-Type": "application/json",
+        };
+        //var response1 = await http.post(url, body: comment.title);
+        response = await http.get(currentUrl, headers: headers);
 
         showInSnackBar(
             "sent comment: ${comment.title}, response:${response.body}");
